@@ -26,9 +26,14 @@ public class Cell : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
+    protected void OnDrawGizmosSelected()
     {
-        
+        Vector2 startSearchPos = transform.position;
+        //Gizmos.DrawSphere(pos, 0.2f);
+
+        Vector2[] pointsToLookAt = cellProperties.sensor.GetPointsToLookAt(startSearchPos);
+        for (int i = 0; i < pointsToLookAt.Length; i++)
+            Gizmos.DrawLine(startSearchPos, pointsToLookAt[i]);
+
     }
 }

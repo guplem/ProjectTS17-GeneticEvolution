@@ -204,11 +204,9 @@ MonoBehaviour:
     digestiveSystem: 0
     flagellums: []
     sensor:
-      lookingStartPoint: {x: 0, y: 0}
-      lookingDirection: 0
-      lookingRaysQty: 0
-      lookingConeSize: 0
-      lookingDistance: 0
+      lookingRaysQty: 7
+      lookingConeSize: 0.83
+      lookingDistance: 4.4
       visualLayers:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 4294967295
