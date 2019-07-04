@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
 public class Sensor
@@ -29,5 +30,17 @@ public class Sensor
         }
 
         return returnVectors;
+    }
+
+    internal Vector2 detectsFood(GameObject gameObject)
+    {
+        //throw new NotImplementedException();
+        return Vector2.zero;
+    }
+
+    internal Vector2 detectsDanger(GameObject gameObject)
+    {
+        //throw new NotImplementedException();
+        return Vector2.zero;
     }
 }

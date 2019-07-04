@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable CS0649
 public class Cell : MonoBehaviour
 {
     public enum DigestiveSystem
@@ -34,6 +36,35 @@ public class Cell : MonoBehaviour
         Vector2[] pointsToLookAt = cellProperties.sensor.GetPointsToLookAt(startSearchPos);
         for (int i = 0; i < pointsToLookAt.Length; i++)
             Gizmos.DrawLine(startSearchPos, pointsToLookAt[i]);
+
+    }
+
+    private void Update()
+    {
+        Move();
+
+
+    }
+
+    private void Move()
+    {
+        Vector2 position = Vector2.zero;
+
+        /*position = cellProperties.sensor.detectsDanger(this.gameObject);
+        if (position != Vector2.zero)
+        {
+            movementController.Avoid(position);
+            return;
+        }*/
+
+
+        position = cellProperties.sensor.detectsFood(this.gameObject);
+        if (position != Vector2.zero)
+        {
+            movementController.MoveTowards(position);
+            return;
+        }
+
 
     }
 }
