@@ -6,9 +6,9 @@ public class CellMovementController : MonoBehaviour
 {
     [SerializeField] private GameObject Front, Front_Right, Right, Back_Right, Back, Back_Left, Left, Front_Left;
     private Flagellum[] flagellums;
-    private Rigidbody rb;
+    private Rigidbody2D rb2d;
 
-    internal void setup(Rigidbody rigidbody, Flagellum[] flagellums)
+    internal void setup(Rigidbody2D rb2d, Flagellum[] flagellums)
     {
         Front.SetActive(false);
         Front_Right.SetActive(false);
@@ -55,12 +55,21 @@ public class CellMovementController : MonoBehaviour
 
 
         this.flagellums = flagellums;
-        this.rb = rigidbody;
+        this.rb2d = rb2d;
     }
 
     public void MoveTowards(Vector2 objectivePosition)
     {
+        Vector2 p2 = objectivePosition;
+        Vector2 p1 = transform.position;
+        float degree = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Mathf.PI;
 
+        degree -= 90;
+
+        if (degree < 0)
+            degree = 360 + degree;
+
+        Debug.Log(degree);
     }
 
     public void Avoid(Vector2 avoidingPosition)

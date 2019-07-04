@@ -24,7 +24,7 @@ public class Cell : MonoBehaviour
     {
         this.cellProperties = cellProperties;
         this.bodySize = cellProperties.bodySize;
-        movementController.setup(GetComponent<Rigidbody>(), cellProperties.flagellums);
+        movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums);
     }
 
 
@@ -41,12 +41,10 @@ public class Cell : MonoBehaviour
 
     private void Update()
     {
-        Move();
-
-
+        UpdateMovement();
     }
 
-    private void Move()
+    private void UpdateMovement()
     {
         Vector2 position = Vector2.zero;
 
