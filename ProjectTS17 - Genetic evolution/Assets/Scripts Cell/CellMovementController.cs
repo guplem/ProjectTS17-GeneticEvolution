@@ -88,12 +88,13 @@ public class CellMovementController : MonoBehaviour
         //Debug.Log("radRotation = " + radRotation + " of original " + flagellum.transform.rotation.z);
         */
         //Debug.Log("flagellumDegree " + (flagellumDegree-90));
-        Vector2 flagellumVector = new Vector2(0, flagellum.transform.rotation.z);//flagellum.transform.forward;//new Vector2(Mathf.Cos(flagellumDegree - 90), Mathf.Sin(flagellumDegree - 90));
-        Debug.Log("flagellumVector " + flagellumVector);
+        //float flagellumDS = flagellum.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+        Vector2 flagellumVector = flagellum.transform.position - flagellum.transform.GetChild(0).transform.position;//new Vector2(Mathf.Sin(flagellumDS), Mathf.Cos(flagellumDS));
+        //Debug.Log("flagellumVector " + flagellumVector + " WITH ANGLE = " + flagellumDegree);
         Debug.DrawRay(flagellum.transform.position, flagellumVector * force * 10, Color.green, 0.5f);
         
 
-        //rb2d.AddForce(flagellumVector*force, ForceMode2D.Impulse);
+        rb2d.AddForce(flagellumVector*force, ForceMode2D.Impulse);
     }
 
     public void Avoid(Vector2 avoidingPosition)

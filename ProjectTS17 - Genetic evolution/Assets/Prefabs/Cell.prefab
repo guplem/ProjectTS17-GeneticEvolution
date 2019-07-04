@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238368021946758015}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -226,12 +226,6 @@ MonoBehaviour:
     bodySize: 1
     digestiveSystem: 0
     flagellums:
-    - position: 5
-      size: 1
-      impulseFrequency: 0
-    - position: 4
-      size: 1
-      impulseFrequency: 0
     - position: 3
       size: 1
       impulseFrequency: 0
@@ -256,11 +250,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flagellum - Front_Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
@@ -343,11 +332,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flagellum - Back
       objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -428,11 +412,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flagellum - Back_Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
@@ -515,11 +494,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flagellum - Back_Left
       objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -600,11 +574,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flagellum - Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
@@ -768,11 +737,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flagellum - Front_Left
       objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -853,11 +817,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flagellum - Left
-      objectReference: {fileID: 0}
-    - target: {fileID: 630664852387638512, guid: d179c3bfa00200f48b22578ca501aab8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004647626895060547, guid: d179c3bfa00200f48b22578ca501aab8,
         type: 3}
