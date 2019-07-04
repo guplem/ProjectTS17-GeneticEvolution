@@ -84,15 +84,11 @@ public class CellMovementController : MonoBehaviour
 
         float force = dedication * flagellum.transform.localScale.y;
 
-        /*float radRotation = flagellum.transform.rotation.z;
-        //Debug.Log("radRotation = " + radRotation + " of original " + flagellum.transform.rotation.z);
-        */
-        //Debug.Log("flagellumDegree " + (flagellumDegree-90));
-        //float flagellumDS = flagellum.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-        Vector2 flagellumVector = flagellum.transform.position - flagellum.transform.GetChild(0).transform.position;//new Vector2(Mathf.Sin(flagellumDS), Mathf.Cos(flagellumDS));
-        //Debug.Log("flagellumVector " + flagellumVector + " WITH ANGLE = " + flagellumDegree);
-        Debug.DrawRay(flagellum.transform.position, flagellumVector * force * 10, Color.green, 0.5f);
         
+        //Canviar l'ordre de la resta fa que s'allunyi en comptes de que s'apropi
+        Vector2 flagellumVector = flagellum.transform.position - flagellum.transform.GetChild(0).transform.position;
+
+        //Debug.DrawRay(flagellum.transform.position, flagellumVector * force * 10, Color.green, 0.5f);
 
         rb2d.AddForce(flagellumVector*force, ForceMode2D.Impulse);
     }
