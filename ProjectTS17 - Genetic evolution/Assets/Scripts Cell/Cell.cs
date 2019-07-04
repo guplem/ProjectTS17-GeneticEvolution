@@ -14,10 +14,16 @@ public class Cell : MonoBehaviour
     }
 
     [SerializeField] private GameObject body;
-    public float bodySize { get { return body.transform.localScale.x; } private set { body.transform.localScale = new Vector3(value, value, value); } }
+    [HideInInspector] public float bodySize { get { return body.transform.localScale.x; } private set { body.transform.localScale = new Vector3(value, value, value); } }
     [SerializeField] private CellMovementController movementController;
-    [SerializeField] private CellProperties cellProperties;
+    [SerializeField] public CellProperties cellProperties;
 
+    public void Start()
+    {
+        Setup(cellProperties);
+
+        InvokeRepeating("UpdateMovement", 0.5f, 0.5f);
+    }
 
 
     public void Setup(CellProperties cellProperties)
@@ -41,7 +47,7 @@ public class Cell : MonoBehaviour
 
     private void Update()
     {
-        UpdateMovement();
+        //UpdateMovement();
     }
 
     private void UpdateMovement()

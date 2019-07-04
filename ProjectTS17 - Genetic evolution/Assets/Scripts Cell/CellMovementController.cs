@@ -53,7 +53,6 @@ public class CellMovementController : MonoBehaviour
             }
         }
 
-
         this.flagellums = flagellums;
         this.rb2d = rb2d;
     }
@@ -62,14 +61,39 @@ public class CellMovementController : MonoBehaviour
     {
         Vector2 p2 = objectivePosition;
         Vector2 p1 = transform.position;
-        float degree = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Mathf.PI;
+        float degree = (Mathf.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Mathf.PI)-90;
+        if (degree < 0) degree = 360 + degree;
 
-        degree -= 90;
+        DoFlagellumPropulsion(degree, Front);
+        DoFlagellumPropulsion(degree, Front_Right);
+        DoFlagellumPropulsion(degree, Right);
+        DoFlagellumPropulsion(degree, Back_Right);
+        DoFlagellumPropulsion(degree, Back);
+        DoFlagellumPropulsion(degree, Back_Left);
+        DoFlagellumPropulsion(degree, Left);
+        DoFlagellumPropulsion(degree, Front_Left);
+    }
 
-        if (degree < 0)
-            degree = 360 + degree;
+    private void DoFlagellumPropulsion(float degreeToObjective, GameObject flagellum)
+    {
+        if (!flagellum.activeSelf) return;
 
-        Debug.Log(degree);
+        float flagellumDegree = flagellum.transform.rotation.eulerAngles.z;
+        float degreeDif = Mathf.Abs(Mathf.DeltaAngle(flagellumDegree, degreeToObjective));
+        float dedication = (180 - degreeDif)/180;
+
+        float force = dedication * flagellum.transform.localScale.y;
+
+        /*float radRotation = flagellum.transform.rotation.z;
+        //Debug.Log("radRotation = " + radRotation + " of original " + flagellum.transform.rotation.z);
+        */
+        //Debug.Log("flagellumDegree " + (flagellumDegree-90));
+        Vector2 flagellumVector = new Vector2(0, flagellum.transform.rotation.z);//flagellum.transform.forward;//new Vector2(Mathf.Cos(flagellumDegree - 90), Mathf.Sin(flagellumDegree - 90));
+        Debug.Log("flagellumVector " + flagellumVector);
+        Debug.DrawRay(flagellum.transform.position, flagellumVector * force * 10, Color.green, 0.5f);
+        
+
+        //rb2d.AddForce(flagellumVector*force, ForceMode2D.Impulse);
     }
 
     public void Avoid(Vector2 avoidingPosition)
@@ -77,5 +101,9 @@ public class CellMovementController : MonoBehaviour
 
     }
 
+    private void DoFlagellumPropulsion(GameObject gameObject, object flagellum)
+    {
+        throw new NotImplementedException();
+    }
 
 }
