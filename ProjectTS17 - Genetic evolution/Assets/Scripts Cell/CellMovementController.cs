@@ -13,6 +13,16 @@ public class CellMovementController : MonoBehaviour
 
     public void Setup(Rigidbody2D rb2d, Cell cell)
     {
+
+        Front.transform.localScale = new Vector3(Front.transform.localScale.x, Front.GetComponent<Flagellum>().size, Front.transform.localScale.z);
+        Front_Right.transform.localScale = new Vector3(Front_Right.transform.localScale.x, Front_Right.GetComponent<Flagellum>().size, Front_Right.transform.localScale.z);
+        Right.transform.localScale = new Vector3(Right.transform.localScale.x, Right.GetComponent<Flagellum>().size, Right.transform.localScale.z);
+        Back_Right.transform.localScale = new Vector3(Back_Right.transform.localScale.x, Back_Right.GetComponent<Flagellum>().size, Back_Right.transform.localScale.z);
+        Back.transform.localScale = new Vector3(Back.transform.localScale.x, Back.GetComponent<Flagellum>().size, Back.transform.localScale.z);
+        Back_Left.transform.localScale = new Vector3(Back_Left.transform.localScale.x, Back_Left.GetComponent<Flagellum>().size, Back_Left.transform.localScale.z);
+        Left.transform.localScale = new Vector3(Left.transform.localScale.x, Left.GetComponent<Flagellum>().size, Left.transform.localScale.z);
+        Front_Left.transform.localScale = new Vector3(Front_Left.transform.localScale.x, Front_Left.GetComponent<Flagellum>().size, Front_Left.transform.localScale.z);
+
         Front.SetActive(Front.GetComponent<Flagellum>().impulseFrequency > 0);
         Front_Right.SetActive(Front_Right.GetComponent<Flagellum>().impulseFrequency > 0);
         Right.SetActive(Right.GetComponent<Flagellum>().impulseFrequency > 0);
@@ -61,7 +71,6 @@ public class CellMovementController : MonoBehaviour
     private IEnumerator DoFlagellumPropulsion(GameObject flagellumGo)
     {
         if (!flagellumGo.activeSelf) yield return "success";
-        //if (flagellumF == null) yield return "success";
 
         while (true)
         {
@@ -81,11 +90,7 @@ public class CellMovementController : MonoBehaviour
                 Mathf.Clamp(rb2d.velocity.x, -cell.cellProperties.maxVelocity, cell.cellProperties.maxVelocity),
                 Mathf.Clamp(rb2d.velocity.y, -cell.cellProperties.maxVelocity, cell.cellProperties.maxVelocity), 0);
 
-            /*
-            Vector2 finalMove = flagellumVector * force;
-            rb2d.transform.position += new Vector3(finalMove.x, finalMove.y, 0);
-            */
-
+            //Debug.Log("Energy consumtion by flagel movement = " + force);
             cell.energy.Modify(-force);
 
 

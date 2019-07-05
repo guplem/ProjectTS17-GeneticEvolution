@@ -46,6 +46,7 @@ public class Cell : MonoBehaviour
     public void EnergyConsumptionByBody()
     {
         float consumption = body.transform.localScale.x + body.transform.localScale.y + body.transform.localScale.z;
+        //Debug.Log("Energy consumtion by body size = " + consumption);
         energy.Modify(-consumption);
     }
 
@@ -63,7 +64,8 @@ public class Cell : MonoBehaviour
 
     private void Sense()
     {
-        float energyConsumption = cellProperties.sensor.lookingRaysQty * cellProperties.sensor.lookingDistance / 1000;
+        float energyConsumption = cellProperties.sensor.lookingRaysQty * cellProperties.sensor.lookingDistance / 100;
+        //Debug.Log("Energy consumtion by all sensors in cell = " + energyConsumption);
         energy.Modify(-energyConsumption);
 
         Vector2 position;
@@ -94,6 +96,7 @@ public class Cell : MonoBehaviour
 
         GiveBirth();
 
+        //Debug.Log("Energy consumtion by reproduction = " + cellProperties.startEnergy);
         energy.Modify(-cellProperties.startEnergy);
     }
 

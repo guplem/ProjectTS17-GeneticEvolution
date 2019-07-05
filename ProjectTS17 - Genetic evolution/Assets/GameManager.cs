@@ -54,4 +54,19 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(spawnZoneStart.x, spawnZoneEnd.x),
             UnityEngine.Random.Range(spawnZoneStart.y, spawnZoneEnd.y), 0);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Time.timeScale += 0.2f;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Time.timeScale -= 0.2f;
+
+            if (Time.timeScale < 0)
+                Time.timeScale = 0;
+        }
+    }
 }
