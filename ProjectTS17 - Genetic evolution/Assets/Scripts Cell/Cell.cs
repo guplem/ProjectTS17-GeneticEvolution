@@ -98,4 +98,50 @@ public class Cell : MonoBehaviour
 
         child.GetComponent<Cell>().cellProperties.Mutate();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("COLLISION " + " tag:");
+        Debug.Log(collision.collider.gameObject.tag);
+        if (collision.gameObject.tag == "Cell")
+        {
+            Debug.Log("CELL");
+            if (cellProperties.digestiveSystem == DigestiveSystem.hervivouros)
+                return;
+
+            Cell colCell = collision.gameObject.GetComponent<Cell>();
+
+            float otherSize = colCell.bodySize.x + colCell.bodySize.y + colCell.bodySize.z;
+            float mySize = bodySize.x + bodySize.y + bodySize.z;
+
+            if (mySize <= otherSize)
+                return;
+
+            energy.Modify(colCell.energy.current);
+            Destroy(colCell.gameObject);
+
+        }
+        else if (collision.gameObject.tag == "Food")
+        {
+            Debug.Log("FOOD");
+            if (cellProperties.digestiveSystem == DigestiveSystem.carinvorous)
+                return;
+
+
+            float otherSize = collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z;
+            float mySize = bodySize.x + bodySize.y + bodySize.z;
+
+            if (mySize <= otherSize)
+            {
+                Debug.Log("Too big : " + mySize + " <= " + otherSize);
+                return;
+            }
+
+            Energy foodEnergy = collision.gameObject.GetComponent<Energy>();
+            energy.Modify(foodEnergy.current);
+            Debug.Log("Obtained energy");
+            Destroy(foodEnergy.gameObject);
+            Debug.Log("Destroyed object");
+        }
+    }
 }

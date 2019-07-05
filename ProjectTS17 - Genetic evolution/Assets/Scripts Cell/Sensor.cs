@@ -13,8 +13,8 @@ public class Sensor
     [SerializeField] public float lookingConeSize;
     [Range(2f, 50f)]
     [SerializeField] public float lookingDistance;
-    [SerializeField] private LayerMask foodLayer;
-    [SerializeField] private LayerMask cellLayer;
+    [SerializeField] public LayerMask foodLayer;
+    [SerializeField] public LayerMask cellLayer;
 
 
     public Vector2[] GetPointsToLookAt(Vector2 startSearchPos)
