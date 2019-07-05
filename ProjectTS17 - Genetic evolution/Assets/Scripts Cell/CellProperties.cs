@@ -4,12 +4,12 @@ using UnityEngine;
 
 #pragma warning disable CS0649
 [System.Serializable]
-//[CreateAssetMenu(fileName = "New Cell Properties", menuName = "Models/Properties/Cell")]
 public class CellProperties
 {
     [Header("BASIC")]
     public float bodySize;
     public Cell.DigestiveSystem digestiveSystem;
+    public float maxVelocity;
 
     [Header("FLAGELLUMS")]
     [Space(20)]

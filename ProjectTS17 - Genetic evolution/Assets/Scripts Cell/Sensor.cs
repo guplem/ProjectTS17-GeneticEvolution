@@ -6,7 +6,7 @@ using UnityEngine;
 public class Sensor
 {
 
-
+    public float updateFrequency;
     [Range(2, 50)]
     [SerializeField] private int lookingRaysQty;
     [Range(0f, 3.14159265359f * 2)]

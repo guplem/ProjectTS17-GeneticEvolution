@@ -154,6 +154,38 @@ MonoBehaviour:
   Back_Left: {fileID: 8027356272415903895}
   Left: {fileID: 9159728322566554551}
   Front_Left: {fileID: 8774528225752954742}
+  fFront:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fFront_Right:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fRight:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fBack_Right:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fBack:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fBack_Left:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fLeft:
+    position: 0
+    size: 0
+    impulseFrequency: 0
+  fFront_Left:
+    position: 0
+    size: 0
+    impulseFrequency: 0
 --- !u!1 &9213158884477442372
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,11 +257,34 @@ MonoBehaviour:
   cellProperties:
     bodySize: 1
     digestiveSystem: 0
+    maxVelocity: 2
     flagellums:
+    - position: 0
+      size: 1
+      impulseFrequency: 0.5
+    - position: 1
+      size: 1
+      impulseFrequency: 0.5
+    - position: 2
+      size: 1
+      impulseFrequency: 0.5
     - position: 3
       size: 1
-      impulseFrequency: 0
+      impulseFrequency: 0.5
+    - position: 4
+      size: 1
+      impulseFrequency: 0.5
+    - position: 5
+      size: 1
+      impulseFrequency: 0.5
+    - position: 6
+      size: 1
+      impulseFrequency: 0.5
+    - position: 7
+      size: 1
+      impulseFrequency: 0.5
     sensor:
+      updateFrequency: 0.5
       lookingRaysQty: 34
       lookingConeSize: 6.28
       lookingDistance: 10

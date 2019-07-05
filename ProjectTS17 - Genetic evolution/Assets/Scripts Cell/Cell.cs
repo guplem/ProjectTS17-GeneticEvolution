@@ -22,7 +22,7 @@ public class Cell : MonoBehaviour
     {
         Setup(cellProperties);
 
-        InvokeRepeating("UpdateMovement", 0.5f, 0.5f);
+        InvokeRepeating("Sense", UnityEngine.Random.Range(0, cellProperties.sensor.updateFrequency), cellProperties.sensor.updateFrequency);
     }
 
 
@@ -30,7 +30,7 @@ public class Cell : MonoBehaviour
     {
         this.cellProperties = cellProperties;
         this.bodySize = cellProperties.bodySize;
-        movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums);
+        movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
     }
 
 
@@ -50,16 +50,16 @@ public class Cell : MonoBehaviour
         //UpdateMovement();
     }
 
-    private void UpdateMovement()
+    private void Sense()
     {
         Vector2 position = Vector2.zero;
 
-        /*position = cellProperties.sensor.detectsDanger(this.gameObject);
+        position = cellProperties.sensor.detectsDanger(this.gameObject);
         if (position != Vector2.zero)
         {
             movementController.Avoid(position);
             return;
-        }*/
+        }
 
 
         position = cellProperties.sensor.detectsFood(this.gameObject);
@@ -68,7 +68,6 @@ public class Cell : MonoBehaviour
             movementController.MoveTowards(position);
             return;
         }
-
 
     }
 }
