@@ -6,28 +6,34 @@ using UnityEngine;
 public class Energy : MonoBehaviour
 {
     public float current { get; private set; }
-    [SerializeField] public float startEnergy;
+    [SerializeField] public float startEnergyIfNotCell;
+    private bool startedEnergyComponent;
 
     private void Start()
     {
+
         Cell cell = GetComponent<Cell>();
         if (cell != null)
-            startEnergy = cell.cellProperties.energyToChild;
+            startEnergyIfNotCell = cell.cellProperties.startEnergy;
 
-        if (startEnergy > 0)
-            SetEnergy(startEnergy);
+        if (startEnergyIfNotCell > 0)
+            SetEnergy(startEnergyIfNotCell);
+
+        startedEnergyComponent = true;
     }
 
     public void SetEnergy(float val)
     {
         current = val;
-
+        Debug.Log("SETTING " + val);
         if (current <= 0)
-            Destroy(gameObject);
+            if (startedEnergyComponent)
+                Destroy(gameObject);
     }
 
     public void Modify(float val)
     {
+        Debug.Log("Current " + current + " modified by + " + val);
         SetEnergy(current + val);
     }
     

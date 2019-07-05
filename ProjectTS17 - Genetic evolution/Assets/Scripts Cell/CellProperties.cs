@@ -22,7 +22,7 @@ public class CellProperties
 
     [Header("REPRODUCTION")]
     [Space(20)]
-    public float energyToChild;
+    public float startEnergy;
     public float minRemainingEnergyAtReproduction;
 
 
@@ -50,7 +50,7 @@ public class CellProperties
             digestiveSystem = (Cell.DigestiveSystem)values.GetValue(random.Next(values.Length));
         }
         if (DoMutate())
-            energyToChild = getMutation(energyToChild, mutationPercentage);
+            startEnergy = getMutation(startEnergy, mutationPercentage);
         if (DoMutate())
             minRemainingEnergyAtReproduction = getMutation(minRemainingEnergyAtReproduction, mutationPercentage);
 

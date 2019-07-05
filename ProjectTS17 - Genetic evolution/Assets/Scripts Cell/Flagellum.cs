@@ -39,7 +39,8 @@ public class Flagellum
         System.Random random = new System.Random();
         this.position = (Position)values.GetValue(random.Next(values.Length));
 
-        this.size = UnityEngine.Random.Range(0.5f, 1.5f);
-        this.impulseFrequency = UnityEngine.Random.Range(0.1f, 1.9f);
+        System.Random r = new System.Random();
+        this.size = 0.5f + (float)r.NextDouble();
+        this.impulseFrequency = 0.1f + ((float)r.NextDouble()) * 1.8f;
     }
 }

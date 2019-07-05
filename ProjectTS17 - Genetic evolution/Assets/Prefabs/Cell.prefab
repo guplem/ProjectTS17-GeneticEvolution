@@ -154,38 +154,6 @@ MonoBehaviour:
   Back_Left: {fileID: 8027356272415903895}
   Left: {fileID: 9159728322566554551}
   Front_Left: {fileID: 8774528225752954742}
-  fFront:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fFront_Right:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fRight:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fBack_Right:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fBack:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fBack_Left:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fLeft:
-    position: 0
-    size: 0
-    impulseFrequency: 0
-  fFront_Left:
-    position: 0
-    size: 0
-    impulseFrequency: 0
 --- !u!1 &9213158884477442372
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,8 +224,8 @@ MonoBehaviour:
   body: {fileID: 1238368021946758015}
   movementController: {fileID: 8669757001067604373}
   cellProperties:
-    bodySize: 1
-    digestiveSystem: 0
+    bodySize: {x: 1, y: 1, z: 1}
+    digestiveSystem: 1
     maxVelocity: 2
     flagellums:
     - position: 0
@@ -295,6 +263,10 @@ MonoBehaviour:
       cellLayer:
         serializedVersion: 2
         m_Bits: 256
+    startEnergy: 500
+    minRemainingEnergyAtReproduction: 500
+    mutationProbability: 10
+    mutationPercentage: 50
   energy: {fileID: 456580677718401340}
 --- !u!114 &456580677718401340
 MonoBehaviour:
@@ -308,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c588b6dc862a8a240a055cf2d576a83a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startEnergy: 1000
+  startEnergyIfNotCell: 500
 --- !u!1001 &3621236466679125703
 PrefabInstance:
   m_ObjectHideFlags: 0

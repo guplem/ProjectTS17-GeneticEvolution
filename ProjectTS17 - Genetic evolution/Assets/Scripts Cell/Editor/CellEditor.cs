@@ -15,9 +15,7 @@ public class CellEditor : Editor
         GUILayout.Space(40);
 
         if (GUILayout.Button("Preview configuration")) {
-
-            
-            cell.Setup(cell.cellProperties);
+            cell.ApplyCellProperties();
         }
     }
 }

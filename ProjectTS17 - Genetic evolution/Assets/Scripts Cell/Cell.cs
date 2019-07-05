@@ -21,10 +21,10 @@ public class Cell : MonoBehaviour
 
     public void Start()
     {
-        Setup(cellProperties);
+        ApplyCellProperties();
+        energy = GetComponent<Energy>();
 
         InvokeRepeating("Sense", UnityEngine.Random.Range(0, cellProperties.sensor.updateFrequency), cellProperties.sensor.updateFrequency);
-
         InvokeRepeating("EnergyConsumptionByBody", UnityEngine.Random.Range(0, 1), 1);
         InvokeRepeating("Reproduction", UnityEngine.Random.Range(0, 5), 5);
     }
@@ -32,12 +32,10 @@ public class Cell : MonoBehaviour
 
 
 
-    public void Setup(CellProperties cellProperties)
+    public void ApplyCellProperties()
     {
-        this.cellProperties = cellProperties;
         this.bodySize = cellProperties.bodySize;
         movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
-        energy = GetComponent<Energy>();
     }
 
     public void EnergyConsumptionByBody()
@@ -56,11 +54,6 @@ public class Cell : MonoBehaviour
         for (int i = 0; i < pointsToLookAt.Length; i++)
             Gizmos.DrawLine(startSearchPos, pointsToLookAt[i]);
 
-    }
-
-    private void Update()
-    {
-        //UpdateMovement();
     }
 
     private void Sense()
@@ -89,19 +82,19 @@ public class Cell : MonoBehaviour
 
     public void Reproduction()
     {
-        if (energy.current < cellProperties.energyToChild + cellProperties.minRemainingEnergyAtReproduction)
+        if (energy.current < cellProperties.startEnergy + cellProperties.minRemainingEnergyAtReproduction)
             return;
 
         GiveBirth();
 
-        energy.Modify(-cellProperties.energyToChild);
+        energy.Modify(-cellProperties.startEnergy);
     }
 
     private void GiveBirth()
     {
         GameObject child = Instantiate(this.gameObject, transform.position, this.transform.rotation);
 
-        child.GetComponent<Energy>().SetEnergy(cellProperties.energyToChild);
+        //child.GetComponent<Energy>().SetEnergy(cellProperties.startEnergy);
 
         child.GetComponent<Cell>().cellProperties.Mutate();
     }

@@ -71,6 +71,9 @@ public class CellMovementController : MonoBehaviour
         this.degreeToObjective = UnityEngine.Random.Range(0, 360);
         this.cell = cell;
 
+        if (!Application.isPlaying)
+            return;
+
         StartCoroutine(DoFlagellumPropulsion(Front, fFront));
         StartCoroutine(DoFlagellumPropulsion(Front_Right, fFront_Right));
         StartCoroutine(DoFlagellumPropulsion(Right, fRight));
