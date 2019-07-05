@@ -225,7 +225,7 @@ MonoBehaviour:
   movementController: {fileID: 8669757001067604373}
   cellProperties:
     bodySize: {x: 1, y: 1, z: 1}
-    digestiveSystem: 1
+    digestiveSystem: 0
     maxVelocity: 2
     flagellums:
     - {fileID: 5990133171361624623}

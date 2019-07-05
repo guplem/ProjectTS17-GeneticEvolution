@@ -325,11 +325,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCell: {fileID: 9213158884477442372, guid: e060bdc0cdd08fd4ba4ba46fb72e7af8,
     type: 3}
-  startCellCount: 1
+  startCellCount: 20
   defaultFood: {fileID: 2846562128813100956, guid: b0dcf3c58b50a9e4290e55e263c8a2c4,
     type: 3}
   startFoodCount: 50
-  foodSpawnPerSecond: 1
+  foodSpawnPerSecond: 10
   spawnZoneStart: {x: -50, y: -50}
   spawnZoneEnd: {x: 50, y: 50}
 --- !u!4 &1945116403

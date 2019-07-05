@@ -8,8 +8,8 @@ public class Cell : MonoBehaviour
 {
     public enum DigestiveSystem
     {
-        carinvorous,
         hervivouros,
+        carinvorous,
         homnivorous,
     }
 

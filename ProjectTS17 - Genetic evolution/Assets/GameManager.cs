@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartSpawning();
-        InvokeRepeating("SpawnFood", 1f, foodSpawnPerSecond);
+        InvokeRepeating("SpawnFood", 1f, 1f/foodSpawnPerSecond);
     }
 
     private void StartSpawning()

@@ -44,7 +44,7 @@ public class CellProperties
             bodySize = new Vector3(getMutationPositive(bodySize.x, mutationPercentage), getMutationPositive(bodySize.y, mutationPercentage), getMutationPositive(bodySize.z, mutationPercentage));
         if (DoMutate())
             maxVelocity = getMutationPositive(maxVelocity, mutationPercentage);
-        if (DoMutate() && DoMutate()) {//Double
+        if (DoMutate() && DoMutate() && DoMutate()) {
             Array values = Enum.GetValues(typeof(Cell.DigestiveSystem));
             System.Random random = new System.Random();
             digestiveSystem = (Cell.DigestiveSystem)values.GetValue(random.Next(values.Length));
@@ -64,25 +64,26 @@ public class CellProperties
         if (DoMutate())
             sensor.lookingDistance = getMutationPositive(sensor.lookingDistance, mutationPercentage);
 
-        if (DoMutate() && DoMutate()) //Changes flagellums quantity or radical change in impulse freuqnecy
-        {
-            flagellums[UnityEngine.Random.Range(0, flagellums.Length - 1)].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
-        }
-
         foreach (Flagellum flagellum in flagellums)
         {
+            if (DoMutate())
+                flagellum.size = getMutationPositive(flagellum.size, mutationPercentage);
+
+            if (DoMutate())
+                if (flagellum.impulseFrequency>0)
+                    flagellum.impulseFrequency = getMutationPositive(flagellum.impulseFrequency, mutationPercentage);
+
             if (DoMutate())
             {
                 Array values = Enum.GetValues(typeof(Flagellum.Position));
                 System.Random random = new System.Random();
                 flagellum.position = (Flagellum.Position)values.GetValue(random.Next(values.Length));
             }
+        }
 
-            if (DoMutate())
-                flagellum.size = getMutationPositive(flagellum.size, mutationPercentage);
-
-            if (DoMutate())
-                flagellum.impulseFrequency = getMutationPositive(flagellum.impulseFrequency, mutationPercentage);
+        if (DoMutate() && DoMutate()) //Changes flagellums quantity or radical change in impulse freuqnecy
+        {
+            flagellums[UnityEngine.Random.Range(0, flagellums.Length - 1)].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
         }
 
     }
@@ -105,10 +106,14 @@ public class CellProperties
 
     private float getMutationPositive(float originalValue, float mutationPercentage)
     {
-        float extremes = Mathf.Abs ( (originalValue / 100) * mutationPercentage ) ;
-        float addition = UnityEngine.Random.Range(-extremes, extremes);
+        float posExtreme = Mathf.Abs ( (originalValue / 100) * mutationPercentage ) ;
+        float minExtreme = (originalValue - posExtreme) <= 0 ? originalValue-0.05f : posExtreme;
+        float addition = UnityEngine.Random.Range(minExtreme, posExtreme);
         float returnVal = originalValue + addition;
 
-        return (returnVal <= 0) ? getMutationPositive(originalValue, mutationPercentage) : returnVal;
+        if (returnVal <= 0)
+            Debug.LogWarning("Not proper mutation value = " + returnVal + ", originalValue = " + originalValue + ", posExtreme = " + posExtreme + ", minExtreme = " + minExtreme + ", addition = " + addition );
+
+        return returnVal;//(returnVal <= 0) ? getMutationPositive(originalValue, mutationPercentage) : returnVal;
     }
 }
