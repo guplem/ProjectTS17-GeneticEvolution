@@ -328,10 +328,10 @@ MonoBehaviour:
   startCellCount: 1
   defaultFood: {fileID: 2846562128813100956, guid: b0dcf3c58b50a9e4290e55e263c8a2c4,
     type: 3}
-  startFoodCount: 25
+  startFoodCount: 50
   foodSpawnPerSecond: 1
-  spawnZoneStart: {x: -100, y: -100}
-  spawnZoneEnd: {x: 100, y: 100}
+  spawnZoneStart: {x: -50, y: -50}
+  spawnZoneEnd: {x: 50, y: 50}
 --- !u!4 &1945116403
 Transform:
   m_ObjectHideFlags: 0

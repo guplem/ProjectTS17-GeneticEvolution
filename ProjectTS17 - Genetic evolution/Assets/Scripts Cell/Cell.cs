@@ -36,6 +36,7 @@ public class Cell : MonoBehaviour
     {
         this.bodySize = cellProperties.bodySize;
         movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
+        cellProperties.sensor.setup(this);
     }
 
     public void EnergyConsumptionByBody()
@@ -78,6 +79,8 @@ public class Cell : MonoBehaviour
             return;
         }
 
+        movementController.MoveTowards(position);
+        return;
     }
 
     public void Reproduction()
@@ -94,8 +97,6 @@ public class Cell : MonoBehaviour
     {
         GameObject child = Instantiate(this.gameObject, transform.position, this.transform.rotation);
 
-        //child.GetComponent<Energy>().SetEnergy(cellProperties.startEnergy);
-
         child.GetComponent<Cell>().cellProperties.Mutate();
     }
 
@@ -105,16 +106,12 @@ public class Cell : MonoBehaviour
         Debug.Log(collision.collider.gameObject.tag);
         if (collision.gameObject.tag == "Cell")
         {
-            Debug.Log("CELL");
             if (cellProperties.digestiveSystem == DigestiveSystem.hervivouros)
                 return;
 
             Cell colCell = collision.gameObject.GetComponent<Cell>();
 
-            float otherSize = colCell.bodySize.x + colCell.bodySize.y + colCell.bodySize.z;
-            float mySize = bodySize.x + bodySize.y + bodySize.z;
-
-            if (mySize <= otherSize)
+            if (!isSizeEdable(bodySize, colCell.bodySize))
                 return;
 
             energy.Modify(colCell.energy.current);
@@ -123,25 +120,23 @@ public class Cell : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Food")
         {
-            Debug.Log("FOOD");
             if (cellProperties.digestiveSystem == DigestiveSystem.carinvorous)
                 return;
 
-
-            float otherSize = collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z;
-            float mySize = bodySize.x + bodySize.y + bodySize.z;
-
-            if (mySize <= otherSize)
-            {
-                Debug.Log("Too big : " + mySize + " <= " + otherSize);
+            if (!isSizeEdable(bodySize, collision.transform.localScale))
                 return;
-            }
 
             Energy foodEnergy = collision.gameObject.GetComponent<Energy>();
             energy.Modify(foodEnergy.current);
-            Debug.Log("Obtained energy");
             Destroy(foodEnergy.gameObject);
-            Debug.Log("Destroyed object");
         }
+    }
+
+    public static bool isSizeEdable(Vector3 mySize, Vector3 otherSize)
+    {
+        float other = otherSize.x + otherSize.y + otherSize.z;
+        float my = mySize.x + mySize.y + mySize.z;
+
+        return my > other;
     }
 }

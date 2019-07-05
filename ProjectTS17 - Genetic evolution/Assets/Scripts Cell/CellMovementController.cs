@@ -115,7 +115,7 @@ public class CellMovementController : MonoBehaviour
 
             Vector2 flagellumVector = flagellumGo.transform.position - flagellumGo.transform.GetChild(0).transform.position;
 
-            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, flagellumF.impulseFrequency);
+            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, 0.5f);
 
             float force = dedication * flagellumGo.transform.localScale.y;
 

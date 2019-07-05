@@ -202,7 +202,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.9
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -265,8 +265,8 @@ MonoBehaviour:
         m_Bits: 256
     startEnergy: 500
     minRemainingEnergyAtReproduction: 500
-    mutationProbability: 10
-    mutationPercentage: 50
+    mutationProbability: 5
+    mutationPercentage: 10
   energy: {fileID: 456580677718401340}
 --- !u!114 &456580677718401340
 MonoBehaviour:

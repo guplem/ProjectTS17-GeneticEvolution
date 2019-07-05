@@ -15,6 +15,7 @@ public class Sensor
     [SerializeField] public float lookingDistance;
     [SerializeField] public LayerMask foodLayer;
     [SerializeField] public LayerMask cellLayer;
+    private Cell cell;
 
 
     public Vector2[] GetPointsToLookAt(Vector2 startSearchPos)
@@ -35,16 +36,57 @@ public class Sensor
 
     public Vector2 detectsFood(GameObject gameObject)
     {
-        return GetDetectionPointWith(gameObject, foodLayer);
+        GameObject objectSeen = null;
+
+        if (cell.cellProperties.digestiveSystem == Cell.DigestiveSystem.carinvorous || cell.cellProperties.digestiveSystem == Cell.DigestiveSystem.homnivorous)
+            objectSeen = ObjectSeen(gameObject, cellLayer);
+
+        if (objectSeen == null)
+            if (cell.cellProperties.digestiveSystem == Cell.DigestiveSystem.hervivouros || cell.cellProperties.digestiveSystem == Cell.DigestiveSystem.homnivorous)
+                objectSeen = ObjectSeen(gameObject, foodLayer);
+
+        if (objectSeen == null)
+            return Vector2.zero;
+
+        Cell cellSeen = objectSeen.GetComponent<Cell>();
+
+        if (cellSeen != null)
+        {
+            if (!Cell.isSizeEdable(cell.bodySize, cellSeen.bodySize))
+                return Vector2.zero;
+        } else
+        {
+            if (!Cell.isSizeEdable(cell.bodySize, objectSeen.transform.position)) //NO me lo puedo comer
+                return Vector2.zero;
+        }
+
+        return objectSeen.transform.position;
     }
 
     public Vector2 detectsDanger(GameObject gameObject)
     {
-        //TODO: Check body size, ...
-        return GetDetectionPointWith(gameObject, cellLayer);
+        GameObject objectSeen = ObjectSeen(gameObject, cellLayer);
+
+        if (objectSeen == null)
+            return Vector2.zero;
+
+        Cell cellSeen = objectSeen.GetComponent<Cell>();
+
+        if (cellSeen.cellProperties.digestiveSystem == Cell.DigestiveSystem.hervivouros)
+            return Vector2.zero;
+
+        if (Cell.isSizeEdable(cell.bodySize, cellSeen.bodySize)) //Me la puedo comer yo
+            return Vector2.zero;
+
+        return objectSeen.transform.position;
     }
 
-    private Vector2 GetDetectionPointWith(GameObject gameObject, LayerMask layer)
+    internal void setup(Cell cell)
+    {
+        this.cell = cell;
+    }
+
+    private GameObject ObjectSeen(GameObject gameObject, LayerMask layer)
     {
         RaycastHit2D[] hit;
         ContactFilter2D filter = new ContactFilter2D();
@@ -62,12 +104,12 @@ public class Sensor
             if (hit[0].collider != null)
             {
                 //Debug.Log(hit[0].point);
-                return hit[0].point;
+                return hit[0].collider.gameObject;
             }
 
         }
         //Debug.Log("NOT FOUND");
-        return Vector2.zero;
+        return null;
     }
 
 
