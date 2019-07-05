@@ -7,7 +7,7 @@ using UnityEngine;
 public class CellMovementController : MonoBehaviour
 {
     [SerializeField] private GameObject Front, Front_Right, Right, Back_Right, Back, Back_Left, Left, Front_Left;
-    [SerializeField] private Flagellum fFront, fFront_Right, fRight, fBack_Right, fBack, fBack_Left, fLeft, fFront_Left;
+    private Flagellum fFront, fFront_Right, fRight, fBack_Right, fBack, fBack_Left, fLeft, fFront_Left;
     private Flagellum[] flagellums;
     private Rigidbody2D rb2d;
     private float degreeToObjective;
@@ -125,6 +125,9 @@ public class CellMovementController : MonoBehaviour
             Vector2 finalMove = flagellumVector * force;
             rb2d.transform.position += new Vector3(finalMove.x, finalMove.y, 0);
             */
+
+            cell.energy.Modify(-force);
+
 
             yield return new WaitForSeconds(flagellumF.impulseFrequency);
         }

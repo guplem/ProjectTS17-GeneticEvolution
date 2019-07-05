@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 [System.Serializable]
 public class Flagellum
 {
@@ -29,5 +31,15 @@ public class Flagellum
         this.position = position;
         this.size = 1;
         this.impulseFrequency = 0.5f;
+    }
+
+    public Flagellum()
+    {
+        Array values = Enum.GetValues(typeof(Position));
+        System.Random random = new System.Random();
+        this.position = (Position)values.GetValue(random.Next(values.Length));
+
+        this.size = UnityEngine.Random.Range(0.5f, 1.5f);
+        this.impulseFrequency = UnityEngine.Random.Range(0.1f, 1.9f);
     }
 }

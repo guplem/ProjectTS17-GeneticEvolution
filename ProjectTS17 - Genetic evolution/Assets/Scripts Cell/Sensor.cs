@@ -8,11 +8,11 @@ public class Sensor
 
     public float updateFrequency;
     [Range(2, 50)]
-    [SerializeField] private int lookingRaysQty;
+    [SerializeField] public int lookingRaysQty;
     [Range(0f, 3.14159265359f * 2)]
-    [SerializeField] private float lookingConeSize;
+    [SerializeField] public float lookingConeSize;
     [Range(2f, 50f)]
-    [SerializeField] private float lookingDistance;
+    [SerializeField] public float lookingDistance;
     [SerializeField] private LayerMask foodLayer;
     [SerializeField] private LayerMask cellLayer;
 
