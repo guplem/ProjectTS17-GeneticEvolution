@@ -56,7 +56,7 @@ public class Sensor
                 return Vector2.zero;
         } else
         {
-            if (!Cell.isSizeEdable(cell.bodySize, objectSeen.transform.position)) //NO me lo puedo comer
+            if (!Cell.isSizeEdable(cell.bodySize, objectSeen.transform.localScale)) //NO me lo puedo comer
                 return Vector2.zero;
         }
 

@@ -1,8 +1,9 @@
 ﻿
 using System;
+using UnityEngine;
 
 [System.Serializable]
-public class Flagellum
+public class Flagellum : MonoBehaviour
 {
     public enum Position
     {
@@ -19,7 +20,7 @@ public class Flagellum
     public float size;
     public float impulseFrequency;
 
-    public Flagellum(Position position, float size, float impulseFrequency)
+    /*public Flagellum(Position position, float size, float impulseFrequency)
     {
         this.position = position;
         this.size = size;
@@ -31,7 +32,7 @@ public class Flagellum
         this.position = position;
         this.size = 1;
         this.impulseFrequency = 0.5f;
-    }
+    }*/
 
     public Flagellum()
     {
@@ -42,5 +43,10 @@ public class Flagellum
         System.Random r = new System.Random();
         this.size = 0.5f + (float)r.NextDouble();
         this.impulseFrequency = 0.1f + ((float)r.NextDouble()) * 1.8f;
+    }
+
+    public override string ToString()
+    {
+        return "position = " + position + ", size = " + size + ", impulseFrequency =" + impulseFrequency;
     }
 }

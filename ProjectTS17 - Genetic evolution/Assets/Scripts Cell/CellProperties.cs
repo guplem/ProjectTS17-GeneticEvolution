@@ -64,7 +64,7 @@ public class CellProperties
         if (DoMutate())
             sensor.lookingDistance = getMutation(sensor.lookingDistance, mutationPercentage);
 
-        if (DoMutate()) //Changes flagellums quantity
+        /*if (DoMutate()) //Changes flagellums quantity
         {
             int newQttyFlag = getMutationInt(flagellums.Length, mutationPercentage);
             Flagellum[] newFlagellums = new Flagellum[newQttyFlag];
@@ -80,7 +80,7 @@ public class CellProperties
                 }
             }
             flagellums = newFlagellums;
-        }
+        }*/
 
         foreach (Flagellum flagellum in flagellums)
         {

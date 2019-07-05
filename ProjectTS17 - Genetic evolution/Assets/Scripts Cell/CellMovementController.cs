@@ -7,58 +7,52 @@ using UnityEngine;
 public class CellMovementController : MonoBehaviour
 {
     [SerializeField] private GameObject Front, Front_Right, Right, Back_Right, Back, Back_Left, Left, Front_Left;
-    private Flagellum fFront, fFront_Right, fRight, fBack_Right, fBack, fBack_Left, fLeft, fFront_Left;
-    private Flagellum[] flagellums;
     private Rigidbody2D rb2d;
     private float degreeToObjective;
     private Cell cell;
 
-    public void setup(Rigidbody2D rb2d, Flagellum[] flagellums, Cell cell)
+    public void Setup(Rigidbody2D rb2d, Flagellum[] flagellums, Cell cell)
     {
-        Front.SetActive(false);
-        Front_Right.SetActive(false);
-        Right.SetActive(false);
-        Back_Right.SetActive(false);
-        Back.SetActive(false);
-        Back_Left.SetActive(false);
-        Left.SetActive(false);
-        Front_Left.SetActive(false);
+        Debug.Log("Setup MovementController: ");
+        foreach (Flagellum flagellum in flagellums)
+            Debug.Log(flagellum.ToString());
 
         foreach (Flagellum flagellum in flagellums)
         {
-            switch (flagellum.position)
+            bool state = (flagellum.impulseFrequency > 0);
+                switch (flagellum.position)
             {
                 case Flagellum.Position.Front:
-                    Front.SetActive(true);
-                    fFront = flagellum;
+                        Front.SetActive(state);
+                    //fFront = flagellum;
                     break;
                 case Flagellum.Position.Front_Right:
-                    Front_Right.SetActive(true);
-                    fFront_Right = flagellum;
+                    Front_Right.SetActive(state);
+                    //fFront_Right = flagellum;
                     break;
                 case Flagellum.Position.Right:
-                    Right.SetActive(true);
-                    fRight = flagellum;
+                    Right.SetActive(state);
+                    //fRight = flagellum;
                     break;
                 case Flagellum.Position.Back_Right:
-                    Back_Right.SetActive(true);
-                    fBack_Right = flagellum;
+                    Back_Right.SetActive(state);
+                    //fBack_Right = flagellum;
                     break;
                 case Flagellum.Position.Back:
-                    Back.SetActive(true);
-                    fBack = flagellum;
+                    Back.SetActive(state);
+                    //fBack = flagellum;
                     break;
                 case Flagellum.Position.Back_Left:
-                    Back_Left.SetActive(true);
-                    fBack_Left = flagellum;
+                    Back_Left.SetActive(state);
+                    //fBack_Left = flagellum;
                     break;
                 case Flagellum.Position.Left:
-                    Left.SetActive(true);
-                    fLeft = flagellum;
+                    Left.SetActive(state);
+                    //fLeft = flagellum;
                     break;
                 case Flagellum.Position.Front_Left:
-                    Front_Left.SetActive(true);
-                    fFront_Left = flagellum;
+                    Front_Left.SetActive(state);
+                    //fFront_Left = flagellum;
                     break;
                 default:
                     Debug.LogError("Unnexpected value");
@@ -66,7 +60,6 @@ public class CellMovementController : MonoBehaviour
             }
         }
 
-        this.flagellums = flagellums;
         this.rb2d = rb2d;
         this.degreeToObjective = UnityEngine.Random.Range(0, 360);
         this.cell = cell;
@@ -74,14 +67,14 @@ public class CellMovementController : MonoBehaviour
         if (!Application.isPlaying)
             return;
 
-        StartCoroutine(DoFlagellumPropulsion(Front, fFront));
-        StartCoroutine(DoFlagellumPropulsion(Front_Right, fFront_Right));
-        StartCoroutine(DoFlagellumPropulsion(Right, fRight));
-        StartCoroutine(DoFlagellumPropulsion(Back_Right, fBack_Right));
-        StartCoroutine(DoFlagellumPropulsion(Back, fBack));
-        StartCoroutine(DoFlagellumPropulsion(Back_Left, fBack_Left));
-        StartCoroutine(DoFlagellumPropulsion(Left, fLeft));
-        StartCoroutine(DoFlagellumPropulsion(Front_Left, fFront_Left));
+        StartCoroutine(DoFlagellumPropulsion(Front));
+        StartCoroutine(DoFlagellumPropulsion(Front_Right));
+        StartCoroutine(DoFlagellumPropulsion(Right));
+        StartCoroutine(DoFlagellumPropulsion(Back_Right));
+        StartCoroutine(DoFlagellumPropulsion(Back));
+        StartCoroutine(DoFlagellumPropulsion(Back_Left));
+        StartCoroutine(DoFlagellumPropulsion(Left));
+        StartCoroutine(DoFlagellumPropulsion(Front_Left));
     }
 
     public void MoveTowards(Vector2 objectivePosition)
@@ -103,19 +96,21 @@ public class CellMovementController : MonoBehaviour
         degreeToObjective = degree;
     }
 
-    private IEnumerator DoFlagellumPropulsion(GameObject flagellumGo, Flagellum flagellumF)
+    private IEnumerator DoFlagellumPropulsion(GameObject flagellumGo)
     {
         if (!flagellumGo.activeSelf) yield return "success";
+        //if (flagellumF == null) yield return "success";
 
         while (true)
         {
+
             float flagellumDegree = flagellumGo.transform.rotation.eulerAngles.z;
             float degreeDif = Mathf.Abs(Mathf.DeltaAngle(flagellumDegree, degreeToObjective));
             float dedication = (180 - degreeDif)/180;
 
             Vector2 flagellumVector = flagellumGo.transform.position - flagellumGo.transform.GetChild(0).transform.position;
 
-            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, 0.5f);
+            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, flagellumGo.GetComponent<Flagellum>().impulseFrequency);
 
             float force = dedication * flagellumGo.transform.localScale.y;
 
@@ -132,7 +127,7 @@ public class CellMovementController : MonoBehaviour
             cell.energy.Modify(-force);
 
 
-            yield return new WaitForSeconds(flagellumF.impulseFrequency);
+            yield return new WaitForSeconds(flagellumGo.GetComponent<Flagellum>().impulseFrequency);
         }
     }
 

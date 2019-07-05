@@ -19,7 +19,7 @@ public class Cell : MonoBehaviour
     [SerializeField] public CellProperties cellProperties;
     [HideInInspector] public Energy energy;
 
-    public void Start()
+    public void Setup()
     {
         ApplyCellProperties();
         energy = GetComponent<Energy>();
@@ -35,7 +35,12 @@ public class Cell : MonoBehaviour
     public void ApplyCellProperties()
     {
         this.bodySize = cellProperties.bodySize;
-        movementController.setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
+        movementController.Setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
+
+        Debug.Log("ApplyCellProperties. cellProperties.flagellums: ");
+        foreach (Flagellum flagellum in cellProperties.flagellums)
+            Debug.Log(flagellum.ToString());
+
         cellProperties.sensor.setup(this);
     }
 
@@ -98,12 +103,11 @@ public class Cell : MonoBehaviour
         GameObject child = Instantiate(this.gameObject, transform.position, this.transform.rotation);
 
         child.GetComponent<Cell>().cellProperties.Mutate();
+        child.GetComponent<Cell>().Setup();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("COLLISION " + " tag:");
-        Debug.Log(collision.collider.gameObject.tag);
         if (collision.gameObject.tag == "Cell")
         {
             if (cellProperties.digestiveSystem == DigestiveSystem.hervivouros)

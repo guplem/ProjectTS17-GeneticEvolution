@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     {
         for (int c = 0; c < startCellCount; c++)
         {
-            Instantiate(defaultCell, GetRandomSpawnLocation(), Quaternion.identity);
-
+            GameObject child = Instantiate(defaultCell, GetRandomSpawnLocation(), Quaternion.identity);
+            child.GetComponent<Cell>().Setup();
         }
 
         for (int f = 0; f < startFoodCount; f++)

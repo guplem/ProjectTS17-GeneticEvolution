@@ -11,7 +11,6 @@ public class Energy : MonoBehaviour
 
     private void Start()
     {
-
         Cell cell = GetComponent<Cell>();
         if (cell != null)
             startEnergyIfNotCell = cell.cellProperties.startEnergy;
@@ -25,7 +24,6 @@ public class Energy : MonoBehaviour
     public void SetEnergy(float val)
     {
         current = val;
-        Debug.Log("SETTING " + val);
         if (current <= 0)
             if (startedEnergyComponent)
                 Destroy(gameObject);
@@ -33,7 +31,6 @@ public class Energy : MonoBehaviour
 
     public void Modify(float val)
     {
-        Debug.Log("Current " + current + " modified by + " + val);
         SetEnergy(current + val);
     }
     
