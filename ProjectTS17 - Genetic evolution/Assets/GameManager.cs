@@ -15,7 +15,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2 spawnZoneStart;
     [SerializeField] private Vector2 spawnZoneEnd;
 
+    public static GameManager Instance;
+    private void Awake()
+    {
+        if (Instance != null)
+            Debug.LogWarning("Multiple game managers have been created");
 
+        Instance = this;
+    }
     void Start()
     {
         StartSpawning();
@@ -26,22 +33,22 @@ public class GameManager : MonoBehaviour
     {
         for (int c = 0; c < startCellCount; c++)
         {
-            GameObject child = Instantiate(defaultCell, GetRandomSpawnLocation(), Quaternion.identity);
+            GameObject child = Instantiate(defaultCell, GetRandomLocationInsideSpawn(), Quaternion.identity);
             child.GetComponent<Cell>().Setup();
         }
 
         for (int f = 0; f < startFoodCount; f++)
         {
-            Instantiate(defaultFood, GetRandomSpawnLocation(), Quaternion.identity);
+            Instantiate(defaultFood, GetRandomLocationInsideSpawn(), Quaternion.identity);
         }
     }
 
     private void SpawnFood()
     {
-        Instantiate(defaultFood, GetRandomSpawnLocation(), Quaternion.identity);
+        Instantiate(defaultFood, GetRandomLocationInsideSpawn(), Quaternion.identity);
     }
 
-    private Vector3 GetRandomSpawnLocation()
+    public Vector3 GetRandomLocationInsideSpawn()
     {
         return new Vector3(
             UnityEngine.Random.Range(spawnZoneStart.x, spawnZoneEnd.x),

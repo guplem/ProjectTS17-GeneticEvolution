@@ -64,23 +64,10 @@ public class CellProperties
         if (DoMutate())
             sensor.lookingDistance = getMutation(sensor.lookingDistance, mutationPercentage);
 
-        /*if (DoMutate()) //Changes flagellums quantity
+        if (DoMutate() && DoMutate()) //Changes flagellums quantity or radical change in impulse freuqnecy
         {
-            int newQttyFlag = getMutationInt(flagellums.Length, mutationPercentage);
-            Flagellum[] newFlagellums = new Flagellum[newQttyFlag];
-            for (int f = 0; f < newFlagellums.Length; f++)
-            {
-                try
-                {
-                    newFlagellums[f] = flagellums[f];
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    newFlagellums[f] = new Flagellum();
-                }
-            }
-            flagellums = newFlagellums;
-        }*/
+            flagellums[UnityEngine.Random.Range(0, flagellums.Length - 1)].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
+        }
 
         foreach (Flagellum flagellum in flagellums)
         {

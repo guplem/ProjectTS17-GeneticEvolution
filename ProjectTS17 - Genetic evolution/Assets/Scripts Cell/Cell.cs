@@ -18,11 +18,14 @@ public class Cell : MonoBehaviour
     [SerializeField] private CellMovementController movementController;
     [SerializeField] public CellProperties cellProperties;
     [HideInInspector] public Energy energy;
+    private Vector3 defaultPos;
 
     public void Setup()
     {
         ApplyCellProperties();
         energy = GetComponent<Energy>();
+
+        defaultPos = GameManager.Instance.GetRandomLocationInsideSpawn();
 
         InvokeRepeating("Sense", UnityEngine.Random.Range(0, cellProperties.sensor.updateFrequency), cellProperties.sensor.updateFrequency);
         InvokeRepeating("EnergyConsumptionByBody", UnityEngine.Random.Range(0, 1), 1);
@@ -35,11 +38,7 @@ public class Cell : MonoBehaviour
     public void ApplyCellProperties()
     {
         this.bodySize = cellProperties.bodySize;
-        movementController.Setup(GetComponent<Rigidbody2D>(), cellProperties.flagellums, this);
-
-        Debug.Log("ApplyCellProperties. cellProperties.flagellums: ");
-        foreach (Flagellum flagellum in cellProperties.flagellums)
-            Debug.Log(flagellum.ToString());
+        movementController.Setup(GetComponent<Rigidbody2D>(), this);
 
         cellProperties.sensor.setup(this);
     }
@@ -67,7 +66,7 @@ public class Cell : MonoBehaviour
         float energyConsumption = cellProperties.sensor.lookingRaysQty * cellProperties.sensor.lookingDistance / 1000;
         energy.Modify(-energyConsumption);
 
-        Vector2 position = Vector2.zero;
+        Vector2 position;
 
         position = cellProperties.sensor.detectsDanger(this.gameObject);
         if (position != Vector2.zero)
@@ -84,7 +83,7 @@ public class Cell : MonoBehaviour
             return;
         }
 
-        movementController.MoveTowards(position);
+        movementController.MoveTowards(defaultPos);
         return;
     }
 

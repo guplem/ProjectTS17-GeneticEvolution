@@ -11,54 +11,16 @@ public class CellMovementController : MonoBehaviour
     private float degreeToObjective;
     private Cell cell;
 
-    public void Setup(Rigidbody2D rb2d, Flagellum[] flagellums, Cell cell)
+    public void Setup(Rigidbody2D rb2d, Cell cell)
     {
-        Debug.Log("Setup MovementController: ");
-        foreach (Flagellum flagellum in flagellums)
-            Debug.Log(flagellum.ToString());
-
-        foreach (Flagellum flagellum in flagellums)
-        {
-            bool state = (flagellum.impulseFrequency > 0);
-                switch (flagellum.position)
-            {
-                case Flagellum.Position.Front:
-                        Front.SetActive(state);
-                    //fFront = flagellum;
-                    break;
-                case Flagellum.Position.Front_Right:
-                    Front_Right.SetActive(state);
-                    //fFront_Right = flagellum;
-                    break;
-                case Flagellum.Position.Right:
-                    Right.SetActive(state);
-                    //fRight = flagellum;
-                    break;
-                case Flagellum.Position.Back_Right:
-                    Back_Right.SetActive(state);
-                    //fBack_Right = flagellum;
-                    break;
-                case Flagellum.Position.Back:
-                    Back.SetActive(state);
-                    //fBack = flagellum;
-                    break;
-                case Flagellum.Position.Back_Left:
-                    Back_Left.SetActive(state);
-                    //fBack_Left = flagellum;
-                    break;
-                case Flagellum.Position.Left:
-                    Left.SetActive(state);
-                    //fLeft = flagellum;
-                    break;
-                case Flagellum.Position.Front_Left:
-                    Front_Left.SetActive(state);
-                    //fFront_Left = flagellum;
-                    break;
-                default:
-                    Debug.LogError("Unnexpected value");
-                    break;
-            }
-        }
+        Front.SetActive(Front.GetComponent<Flagellum>().impulseFrequency > 0);
+        Front_Right.SetActive(Front_Right.GetComponent<Flagellum>().impulseFrequency > 0);
+        Right.SetActive(Right.GetComponent<Flagellum>().impulseFrequency > 0);
+        Back_Right.SetActive(Back_Right.GetComponent<Flagellum>().impulseFrequency > 0);
+        Back.SetActive(Back.GetComponent<Flagellum>().impulseFrequency > 0);
+        Back_Left.SetActive(Back_Left.GetComponent<Flagellum>().impulseFrequency > 0);
+        Left.SetActive(Left.GetComponent<Flagellum>().impulseFrequency > 0);
+        Front_Left.SetActive(Front_Left.GetComponent<Flagellum>().impulseFrequency > 0);
 
         this.rb2d = rb2d;
         this.degreeToObjective = UnityEngine.Random.Range(0, 360);
