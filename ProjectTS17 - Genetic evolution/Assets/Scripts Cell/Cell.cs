@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 #pragma warning disable CS0649
 public class Cell : MonoBehaviour
@@ -19,6 +20,8 @@ public class Cell : MonoBehaviour
     [SerializeField] public CellProperties cellProperties;
     [HideInInspector] public Energy energy;
     private Vector3 defaultPos;
+    [Space (25)]
+    [SerializeField] private Image EnergyIndicator;
 
     public void Setup()
     {
@@ -30,8 +33,27 @@ public class Cell : MonoBehaviour
         InvokeRepeating("Sense", UnityEngine.Random.Range(0, cellProperties.sensor.updateFrequency), cellProperties.sensor.updateFrequency);
         InvokeRepeating("EnergyConsumptionByBody", UnityEngine.Random.Range(0, 1), 1);
         InvokeRepeating("Reproduction", UnityEngine.Random.Range(0, 5), 5);
+
+
+        switch (cellProperties.digestiveSystem)
+        {
+            case DigestiveSystem.hervivouros:
+                body.GetComponent<Renderer>().material.color = Color.green;
+                break;
+            case DigestiveSystem.carinvorous:
+                body.GetComponent<Renderer>().material.color = Color.red;
+                break;
+            case DigestiveSystem.homnivorous:
+                body.GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+        }
+        
     }
 
+    private void Update()
+    {
+        EnergyIndicator.fillAmount = energy.current / (cellProperties.startEnergy + cellProperties.minRemainingEnergyAtReproduction);
+    }
 
 
 
@@ -102,10 +124,12 @@ public class Cell : MonoBehaviour
 
     private void GiveBirth()
     {
-        GameObject child = Instantiate(this.gameObject, transform.position, this.transform.rotation);
+        GameObject child = Instantiate(GameManager.Instance.defaultCell, transform.position, this.transform.rotation);
 
-        child.GetComponent<Cell>().cellProperties.Mutate();
-        child.GetComponent<Cell>().Setup();
+        Cell newCell = child.GetComponent<Cell>();
+
+        newCell.cellProperties = cellProperties.Clone().Mutate();
+        newCell.Setup();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

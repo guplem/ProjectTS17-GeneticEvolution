@@ -31,14 +31,20 @@ public class CellProperties
     public float mutationProbability;
     public float mutationPercentage;
 
-
-    public CellProperties()
+    public CellProperties(Vector3 bodySize, Cell.DigestiveSystem digestiveSystem, float maxVelocity, Flagellum[] flagellums, Sensor sensor, float startEnergy, float minRemainingEnergyAtReproduction, float mutationProbability, float mutationPercentage)
     {
-        this.bodySize = Vector3.one;
-        sensor = new Sensor();
+        this.bodySize = bodySize;
+        this.digestiveSystem = digestiveSystem;
+        this.maxVelocity = maxVelocity;
+        this.flagellums = flagellums;
+        this.sensor = sensor;
+        this.startEnergy = startEnergy;
+        this.minRemainingEnergyAtReproduction = minRemainingEnergyAtReproduction;
+        this.mutationProbability = mutationProbability;
+        this.mutationPercentage = mutationPercentage;
     }
 
-    public void Mutate()
+    public CellProperties Mutate()
     {
         if (DoMutate())
             bodySize = new Vector3(getMutationPositive(bodySize.x, mutationPercentage), getMutationPositive(bodySize.y, mutationPercentage), getMutationPositive(bodySize.z, mutationPercentage));
@@ -86,6 +92,7 @@ public class CellProperties
             flagellums[UnityEngine.Random.Range(0, flagellums.Length - 1)].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
         }
 
+        return this;
     }
 
     private bool DoMutate()
@@ -115,5 +122,20 @@ public class CellProperties
             Debug.LogWarning("Not proper mutation value = " + returnVal + ", originalValue = " + originalValue + ", posExtreme = " + posExtreme + ", minExtreme = " + minExtreme + ", addition = " + addition );
 
         return returnVal;//(returnVal <= 0) ? getMutationPositive(originalValue, mutationPercentage) : returnVal;
+    }
+
+
+    public CellProperties Clone()
+    {
+        /*
+        Flagellum[] newFlagellums = new Flagellum[flagellums.Length];
+        for (int f = 0; f < flagellums.Length; f++)
+        {
+            if (flagellums[f] != null)
+                newFlagellums[f] = flagellums[f].Clone();
+        }
+        */
+
+        return new CellProperties(bodySize, digestiveSystem, maxVelocity, flagellums, sensor.Clone(), startEnergy, minRemainingEnergyAtReproduction, mutationProbability, mutationPercentage);
     }
 }

@@ -17,6 +17,15 @@ public class Sensor
     [SerializeField] public LayerMask cellLayer;
     private Cell cell;
 
+    public Sensor(float updateFrequency, int lookingRaysQty, float lookingConeSize, float lookingDistance, LayerMask foodLayer, LayerMask cellLayer)
+    {
+        this.updateFrequency = updateFrequency;
+        this.lookingRaysQty = lookingRaysQty;
+        this.lookingConeSize = lookingConeSize;
+        this.lookingDistance = lookingDistance;
+        this.foodLayer = foodLayer;
+        this.cellLayer = cellLayer;
+    }
 
     public Vector2[] GetPointsToLookAt(Vector2 startSearchPos)
     {
@@ -112,5 +121,8 @@ public class Sensor
         return null;
     }
 
-
+    public Sensor Clone()
+    {
+        return new Sensor(updateFrequency, lookingRaysQty, lookingConeSize, lookingDistance, foodLayer, cellLayer);
+    }
 }

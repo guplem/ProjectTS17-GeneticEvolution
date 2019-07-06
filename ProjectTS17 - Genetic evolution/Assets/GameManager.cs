@@ -6,7 +6,7 @@ using UnityEngine;
 #pragma warning disable 0649
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject defaultCell;
+    [SerializeField] public GameObject defaultCell;
     [SerializeField] private int startCellCount;
     [SerializeField] private GameObject defaultFood;
     [SerializeField] private int startFoodCount;

@@ -20,19 +20,7 @@ public class Flagellum : MonoBehaviour
     public float size;
     public float impulseFrequency;
 
-    /*public Flagellum(Position position, float size, float impulseFrequency)
-    {
-        this.position = position;
-        this.size = size;
-        this.impulseFrequency = impulseFrequency;
-    }
 
-    public Flagellum(Position position)
-    {
-        this.position = position;
-        this.size = 1;
-        this.impulseFrequency = 0.5f;
-    }*/
 
     public Flagellum()
     {
@@ -45,8 +33,20 @@ public class Flagellum : MonoBehaviour
         this.impulseFrequency = 0.1f + ((float)r.NextDouble()) * 1.8f;
     }
 
+    public Flagellum(Position position, float size, float impulseFrequency)
+    {
+        this.position = position;
+        this.size = size;
+        this.impulseFrequency = impulseFrequency;
+    }
+
     public override string ToString()
     {
         return "position = " + position + ", size = " + size + ", impulseFrequency =" + impulseFrequency;
+    }
+
+    public Flagellum Clone()
+    {
+        return new Flagellum(position, size, impulseFrequency);
     }
 }
