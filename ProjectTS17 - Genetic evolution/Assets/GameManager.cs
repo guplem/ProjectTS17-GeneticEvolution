@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         for (int c = 0; c < startCellCount; c++)
         {
             GameObject child = Instantiate(defaultCell, GetRandomLocationInsideSpawn(), Quaternion.identity);
-            child.GetComponent<Cell>().Setup();
+            child.GetComponent<Cell>().Setup(child.GetComponent<Cell>().cellProperties);
         }
 
         for (int f = 0; f < startFoodCount; f++)
@@ -68,5 +68,14 @@ public class GameManager : MonoBehaviour
             if (Time.timeScale < 0)
                 Time.timeScale = 0;
         }
+    }
+
+    public static void GiveBirth(Cell father)
+    {
+        GameObject child = Instantiate(GameManager.Instance.defaultCell, Vector3.zero/*father.transform.position*/, /*father.transform.rotation*/Quaternion.identity);
+
+        Cell newCell = child.GetComponent<Cell>();
+
+        newCell.Setup(father.cellProperties.Clone().Mutate());
     }
 }

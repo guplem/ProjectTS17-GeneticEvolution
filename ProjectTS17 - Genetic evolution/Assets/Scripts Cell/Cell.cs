@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[SelectionBase]
 #pragma warning disable CS0649
 public class Cell : MonoBehaviour
 {
@@ -23,14 +24,16 @@ public class Cell : MonoBehaviour
     [Space (25)]
     [SerializeField] private Image EnergyIndicator;
 
-    public void Setup()
+    public void Setup(CellProperties cp)
     {
-        ApplyCellProperties();
+        cellProperties = cp;
+
+        ApplyCellProperties(cp);
         energy = GetComponent<Energy>();
 
         defaultPos = GameManager.Instance.GetRandomLocationInsideSpawn();
 
-        InvokeRepeating("Sense", UnityEngine.Random.Range(0, cellProperties.sensor.updateFrequency), cellProperties.sensor.updateFrequency);
+        InvokeRepeating("Sense", UnityEngine.Random.Range(0, cp.sensor.updateFrequency), cp.sensor.updateFrequency);
         InvokeRepeating("EnergyConsumptionByBody", UnityEngine.Random.Range(0, 1), 1);
         InvokeRepeating("Reproduction", UnityEngine.Random.Range(0, 5), 5);
 
@@ -57,19 +60,20 @@ public class Cell : MonoBehaviour
 
 
 
-    public void ApplyCellProperties()
+    public void ApplyCellProperties(CellProperties cp)
     {
-        this.bodySize = cellProperties.bodySize;
+        this.bodySize = cp.bodySize;
+
         movementController.Setup(GetComponent<Rigidbody2D>(), this);
 
-        cellProperties.sensor.setup(this);
+        cp.sensor.setup(this);
     }
 
     public void EnergyConsumptionByBody()
     {
         float consumption = body.transform.localScale.x + body.transform.localScale.y + body.transform.localScale.z;
         //Debug.Log("Energy consumtion by body size = " + consumption);
-        energy.Modify(-consumption);
+        energy.Modify(-(Mathf.Pow(consumption,2)));
     }
 
 
@@ -116,21 +120,24 @@ public class Cell : MonoBehaviour
         if (energy.current < cellProperties.startEnergy + cellProperties.minRemainingEnergyAtReproduction)
             return;
 
-        GiveBirth();
+        GameManager.GiveBirth(this);
 
         //Debug.Log("Energy consumtion by reproduction = " + cellProperties.startEnergy);
         energy.Modify(-cellProperties.startEnergy);
     }
 
-    private void GiveBirth()
+    /*private void GiveBirth()
     {
+        Debug.Log("GiveBirth. " + energy.current + " will be splited in " + cellProperties.startEnergy + " to the child and " + cellProperties.minRemainingEnergyAtReproduction + " to the father.");
+
         GameObject child = Instantiate(GameManager.Instance.defaultCell, transform.position, this.transform.rotation);
+
 
         Cell newCell = child.GetComponent<Cell>();
 
         newCell.cellProperties = cellProperties.Clone().Mutate();
         newCell.Setup();
-    }
+    }*/
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
