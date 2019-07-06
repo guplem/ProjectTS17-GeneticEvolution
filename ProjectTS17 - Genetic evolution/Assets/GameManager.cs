@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     public static void GiveBirth(Cell father)
     {
-        GameObject child = Instantiate(GameManager.Instance.defaultCell, Vector3.zero/*father.transform.position*/, /*father.transform.rotation*/Quaternion.identity);
+        GameObject child = Instantiate(GameManager.Instance.defaultCell,father.transform.position, Quaternion.identity);
 
         Cell newCell = child.GetComponent<Cell>();
 
