@@ -13,24 +13,53 @@ public class CellMovementController : MonoBehaviour
 
     public void Setup(Rigidbody2D rb2d, Cell cell)
     {
+        foreach (Flagellum flagellum in cell.cellProperties.flagellums)
+        {
+            switch (flagellum.position)
+            {
+                case Flagellum.Position.Front:
+                    Front.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Front.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Front.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Front_Right:
+                    Front_Right.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Front_Right.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Front_Right.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Right:
+                    Right.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Right.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Right.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Back_Right:
+                    Back_Right.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Back_Right.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Back_Right.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Back:
+                    Back.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Back.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Back.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Back_Left:
+                    Back_Left.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Back_Left.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Back_Left.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Left:
+                    Left.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Left.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Left.SetActive(flagellum.impulseFrequency > 0);
+                    break;
+                case Flagellum.Position.Front_Left:
+                    Front_Left.transform.localScale = new Vector3(Front.transform.localScale.x, flagellum.size, Front.transform.localScale.z);
+                    Front_Left.GetComponent<FlagellumImpulseFrequency>().value = flagellum.impulseFrequency;
+                    Front_Left.SetActive(flagellum.impulseFrequency > 0);
+                    break;
 
-        Front.transform.localScale = new Vector3(Front.transform.localScale.x, Front.GetComponent<Flagellum>().size, Front.transform.localScale.z);
-        Front_Right.transform.localScale = new Vector3(Front_Right.transform.localScale.x, Front_Right.GetComponent<Flagellum>().size, Front_Right.transform.localScale.z);
-        Right.transform.localScale = new Vector3(Right.transform.localScale.x, Right.GetComponent<Flagellum>().size, Right.transform.localScale.z);
-        Back_Right.transform.localScale = new Vector3(Back_Right.transform.localScale.x, Back_Right.GetComponent<Flagellum>().size, Back_Right.transform.localScale.z);
-        Back.transform.localScale = new Vector3(Back.transform.localScale.x, Back.GetComponent<Flagellum>().size, Back.transform.localScale.z);
-        Back_Left.transform.localScale = new Vector3(Back_Left.transform.localScale.x, Back_Left.GetComponent<Flagellum>().size, Back_Left.transform.localScale.z);
-        Left.transform.localScale = new Vector3(Left.transform.localScale.x, Left.GetComponent<Flagellum>().size, Left.transform.localScale.z);
-        Front_Left.transform.localScale = new Vector3(Front_Left.transform.localScale.x, Front_Left.GetComponent<Flagellum>().size, Front_Left.transform.localScale.z);
-
-        Front.SetActive(Front.GetComponent<Flagellum>().impulseFrequency > 0);
-        Front_Right.SetActive(Front_Right.GetComponent<Flagellum>().impulseFrequency > 0);
-        Right.SetActive(Right.GetComponent<Flagellum>().impulseFrequency > 0);
-        Back_Right.SetActive(Back_Right.GetComponent<Flagellum>().impulseFrequency > 0);
-        Back.SetActive(Back.GetComponent<Flagellum>().impulseFrequency > 0);
-        Back_Left.SetActive(Back_Left.GetComponent<Flagellum>().impulseFrequency > 0);
-        Left.SetActive(Left.GetComponent<Flagellum>().impulseFrequency > 0);
-        Front_Left.SetActive(Front_Left.GetComponent<Flagellum>().impulseFrequency > 0);
+            }
+        }
 
         this.rb2d = rb2d;
         this.degreeToObjective = UnityEngine.Random.Range(0, 360);
@@ -81,7 +110,7 @@ public class CellMovementController : MonoBehaviour
 
             Vector2 flagellumVector = flagellumGo.transform.position - flagellumGo.transform.GetChild(0).transform.position;
 
-            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, flagellumGo.GetComponent<Flagellum>().impulseFrequency);
+            Debug.DrawRay(flagellumGo.transform.position, flagellumVector * dedication * 10, Color.green, flagellumGo.GetComponent<FlagellumImpulseFrequency>().value);
 
             float force = dedication * flagellumGo.transform.localScale.y;
 
@@ -94,7 +123,7 @@ public class CellMovementController : MonoBehaviour
             cell.energy.Modify(-force);
 
 
-            yield return new WaitForSeconds(flagellumGo.GetComponent<Flagellum>().impulseFrequency);
+            yield return new WaitForSeconds(flagellumGo.GetComponent<FlagellumImpulseFrequency>().value);
         }
     }
 

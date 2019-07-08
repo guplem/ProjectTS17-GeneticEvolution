@@ -44,42 +44,42 @@ public class CellProperties
         this.mutationPercentage = mutationPercentage;
     }
 
-    public CellProperties Mutate()
+    public static CellProperties Mutate(CellProperties cp)
     {
-        if (DoMutate())
-            bodySize = new Vector3(getMutationPositive(bodySize.x, mutationPercentage), getMutationPositive(bodySize.y, mutationPercentage), getMutationPositive(bodySize.z, mutationPercentage));
-        if (DoMutate())
-            maxVelocity = getMutationPositive(maxVelocity, mutationPercentage);
-        if (DoMutate() && DoMutate() && DoMutate()) {
+        if (cp.DoMutate())
+            cp.bodySize = new Vector3(getMutationPositive("bodySize.x", cp.bodySize.x, cp.mutationPercentage), getMutationPositive("bodySize.y", cp.bodySize.y, cp.mutationPercentage), getMutationPositive("bodySize.z", cp.bodySize.z, cp.mutationPercentage));
+        if (cp.DoMutate())
+            cp.maxVelocity = getMutationPositive("maxVelocity", cp.maxVelocity, cp.mutationPercentage);
+        if (cp.DoMutate() && cp.DoMutate() && cp.DoMutate()) {
             Array values = Enum.GetValues(typeof(Cell.DigestiveSystem));
             System.Random random = new System.Random();
-            digestiveSystem = (Cell.DigestiveSystem)values.GetValue(random.Next(values.Length));
+            cp.digestiveSystem = (Cell.DigestiveSystem)values.GetValue(random.Next(values.Length));
         }
-        if (DoMutate())
-            startEnergy = getMutationPositive(startEnergy, mutationPercentage);
-        if (DoMutate())
-            minRemainingEnergyAtReproduction = getMutationPositive(minRemainingEnergyAtReproduction, mutationPercentage);
+        if (cp.DoMutate())
+            cp.startEnergy = getMutationPositive("startEnergy", cp.startEnergy, cp.mutationPercentage);
+        if (cp.DoMutate())
+            cp.minRemainingEnergyAtReproduction = getMutationPositive("minRemainingEnergyAtReproduction", cp.minRemainingEnergyAtReproduction, cp.mutationPercentage);
 
 
-        if (DoMutate())
-            sensor.updateFrequency = getMutationPositive(sensor.updateFrequency, mutationPercentage);
-        if (DoMutate())
-            sensor.lookingRaysQty = getMutationInt(sensor.lookingRaysQty, mutationPercentage);
-        if (DoMutate())
-            sensor.lookingConeSize = getMutationPositive(sensor.lookingConeSize, mutationPercentage);
-        if (DoMutate())
-            sensor.lookingDistance = getMutationPositive(sensor.lookingDistance, mutationPercentage);
+        if (cp.DoMutate())
+            cp.sensor.updateFrequency = getMutationPositive("sensor.updateFrequency", cp.sensor.updateFrequency, cp.mutationPercentage);
+        if (cp.DoMutate())
+            cp.sensor.lookingRaysQty = getMutationInt("sensor.lookingRaysQty", cp.sensor.lookingRaysQty, cp.mutationPercentage);
+        if (cp.DoMutate())
+            cp.sensor.lookingConeSize = getMutationPositive("sensor.lookingConeSize", cp.sensor.lookingConeSize, cp.mutationPercentage);
+        if (cp.DoMutate())
+            cp.sensor.lookingDistance = getMutationPositive("sensor.lookingDistance", cp.sensor.lookingDistance, cp.mutationPercentage);
 
-        foreach (Flagellum flagellum in flagellums)
+        foreach (Flagellum flagellum in cp.flagellums)
         {
-            if (DoMutate())
-                flagellum.size = getMutationPositive(flagellum.size, mutationPercentage);
+            if (cp.DoMutate())
+                flagellum.size = getMutationPositive("flagellum.size", flagellum.size, cp.mutationPercentage);
 
-            if (DoMutate())
+            if (cp.DoMutate())
                 if (flagellum.impulseFrequency>0)
-                    flagellum.impulseFrequency = getMutationPositive(flagellum.impulseFrequency, mutationPercentage);
+                    flagellum.impulseFrequency = getMutationPositive("flagellum.impulseFrequency", flagellum.impulseFrequency, cp.mutationPercentage);
 
-            if (DoMutate())
+            if (cp.DoMutate())
             {
                 Array values = Enum.GetValues(typeof(Flagellum.Position));
                 System.Random random = new System.Random();
@@ -87,12 +87,14 @@ public class CellProperties
             }
         }
 
-        if (DoMutate() && DoMutate()) //Changes flagellums quantity or radical change in impulse freuqnecy
+        if (cp.DoMutate() && cp.DoMutate()) //Changes flagellums quantity or radical change in impulse freuqnecy
         {
-            flagellums[UnityEngine.Random.Range(0, flagellums.Length - 1)].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
+            int mutatedFlagellum = UnityEngine.Random.Range(0, cp.flagellums.Length - 1);
+            cp.flagellums[mutatedFlagellum].impulseFrequency = UnityEngine.Random.Range(-2f, 2f);
+            Debug.Log(" Radical change in impulse frequency for: " + cp.flagellums[mutatedFlagellum].ToString());
         }
 
-        return this;
+        return cp;
     }
 
     private bool DoMutate()
@@ -100,9 +102,9 @@ public class CellProperties
         return mutationProbability < UnityEngine.Random.Range(0f, 100f);
     }
 
-    private int getMutationInt(int originalValue, float mutationPercentage)
+    private static int getMutationInt(string mutationName, int originalValue, float mutationPercentage)
     {
-        float mutationVal = getMutationPositive(originalValue, mutationPercentage);
+        float mutationVal = getMutationPositive(mutationName, originalValue, mutationPercentage);
 
         if (UnityEngine.Random.value > 0.5f)
             return Mathf.FloorToInt(mutationVal);
@@ -111,7 +113,7 @@ public class CellProperties
     }
 
 
-    private float getMutationPositive(float originalValue, float mutationPercentage)
+    private static float getMutationPositive(string mutationName, float originalValue, float mutationPercentage)
     {
         float posExtreme = Mathf.Abs ( (originalValue / 100) * mutationPercentage ) ;
         float minExtreme = (originalValue - posExtreme) <= 0 ? originalValue-0.05f : posExtreme;
@@ -119,7 +121,7 @@ public class CellProperties
         float returnVal = originalValue + addition;
 
         if (returnVal <= 0)
-            Debug.LogWarning("Not proper mutation value = " + returnVal + ", originalValue = " + originalValue + ", posExtreme = " + posExtreme + ", minExtreme = " + minExtreme + ", addition = " + addition );
+            Debug.LogWarning("Mutating " + mutationName + ". Not proper mutation value = " + returnVal + ", originalValue = " + originalValue + ", posExtreme = " + posExtreme + ", minExtreme = " + minExtreme + ", addition = " + addition );
 
         return returnVal;//(returnVal <= 0) ? getMutationPositive(originalValue, mutationPercentage) : returnVal;
     }
@@ -127,15 +129,15 @@ public class CellProperties
 
     public CellProperties Clone()
     {
-        /*
+        
         Flagellum[] newFlagellums = new Flagellum[flagellums.Length];
         for (int f = 0; f < flagellums.Length; f++)
         {
             if (flagellums[f] != null)
                 newFlagellums[f] = flagellums[f].Clone();
         }
-        */
+        
 
-        return new CellProperties(bodySize, digestiveSystem, maxVelocity, flagellums, sensor.Clone(), startEnergy, minRemainingEnergyAtReproduction, mutationProbability, mutationPercentage);
+        return new CellProperties(bodySize, digestiveSystem, maxVelocity, newFlagellums, sensor.Clone(), startEnergy, minRemainingEnergyAtReproduction, mutationProbability, mutationPercentage);
     }
 }

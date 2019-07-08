@@ -72,10 +72,9 @@ public class GameManager : MonoBehaviour
 
     public static void GiveBirth(Cell father)
     {
-        GameObject child = Instantiate(GameManager.Instance.defaultCell,father.transform.position, Quaternion.identity);
-
-        Cell newCell = child.GetComponent<Cell>();
-
-        newCell.Setup(father.cellProperties.Clone().Mutate());
+        GameObject child = Instantiate(GameManager.Instance.defaultCell, Instance.GetRandomLocationInsideSpawn(), Quaternion.identity);
+        CellProperties newCp = father.cellProperties.Clone();
+        CellProperties newCpMutated = CellProperties.Mutate(newCp);
+        child.GetComponent<Cell>().Setup(newCpMutated);
     }
 }

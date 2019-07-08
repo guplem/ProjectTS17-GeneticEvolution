@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Cell))]
+[CustomEditor(typeof(Cell)), CanEditMultipleObjects]
 public class CellEditor : Editor
 {
     public override void OnInspectorGUI()
